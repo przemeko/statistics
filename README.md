@@ -1,7 +1,7 @@
 # statistics
 
 ## Description
-Library for multivariate statistics for PHP >= 5.5. Allow large csv files.
+Library for multivariate statistics for PHP >= 7.1. Allow large csv files.
 
 ## Usage
 Array as data provider.

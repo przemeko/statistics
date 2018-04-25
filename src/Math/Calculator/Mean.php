@@ -1,17 +1,16 @@
 <?php
-namespace przemeko\Statistics\Math\Operation;
 
-use przemeko\Statistics\Data\DataContainerAbstract;
-use przemeko\Statistics\Data\Exception\NoDataProviderException;
-use przemeko\Statistics\Math\Operation\OperationInterface;
+namespace przemeko\Statistics\Math\Calculator;
+
+use przemeko\Statistics\Data\DataProviderInterface;
 use przemeko\Statistics\Math\Exception\LogicException;
 
-class Mean extends DataContainerAbstract implements OperationInterface
+class Mean implements CalculatorInterface
 {
-    private $vectors;
-    private $dimension;
+    private $vectors = [];
+    private $dimension = 0;
 
-    private function step(Array $row)
+    private function step(array $row): void
     {
         $this->dimension++;
         $size = sizeof($row);
@@ -24,15 +23,14 @@ class Mean extends DataContainerAbstract implements OperationInterface
         }
     }
 
-    public function calculate()
+    /**
+     * @throws LogicException
+     */
+    public function calculate(DataProviderInterface $dataProvider): array
     {
-        if (!$this->dataProvider) {
-            throw new NoDataProviderException('No data provider set');
-        }
-
         $this->dimension = 0;
         $this->vectors = [];
-        foreach ($this->dataProvider->get() as $row) {
+        foreach ($dataProvider->get() as $row) {
             $this->step($row);
         }
 
@@ -47,7 +45,7 @@ class Mean extends DataContainerAbstract implements OperationInterface
         return $this->vectors;
     }
 
-    public function getResult()
+    public function getResult(): array
     {
         return $this->vectors;
     }

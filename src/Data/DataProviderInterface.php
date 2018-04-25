@@ -2,5 +2,5 @@
 namespace przemeko\Statistics\Data;
 
 interface DataProviderInterface {
-    public function get();
+    public function get(): \Generator;
 }

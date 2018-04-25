@@ -3,14 +3,14 @@ require_once '../vendor/autoload.php';
 
 use przemeko\Statistics\Data\Provider\Csv;
 use przemeko\Statistics\Data\Provider\SimpleArray;
-use przemeko\Statistics\Math\Operation\Min;
-use przemeko\Statistics\Math\Operation\Mean;
-use przemeko\Statistics\Math\Operation\Covariance;
+use przemeko\Statistics\Math\Calculator\Min;
+use przemeko\Statistics\Math\Calculator\Mean;
+use przemeko\Statistics\Math\Calculator\Covariance;
 use przemeko\Statistics\Printer\Cli;
 
 $dataProvider = new Csv('data.csv');
 $dataProvider->setDelimiter(",")
-            ->setEnclosure('"');
+    ->setEnclosure('"');
 /*
 $dataProvider = new SimpleArray([
     [1,2,3],
@@ -19,16 +19,13 @@ $dataProvider = new SimpleArray([
 */
 
 $min = new Min();
-$min->setDataProvider($dataProvider);
-$min->calculate();
+$min->calculate($dataProvider);
 
 $mean = new Mean();
-$mean->setDataProvider($dataProvider);
-$mean->calculate();
+$mean->calculate($dataProvider);
 
 $cov = new Covariance();
-$cov->setDataProvider($dataProvider);
-$cov->calculate();
+$cov->calculate($dataProvider);
 
 $printer = new Cli();
 $printer->output(
@@ -36,6 +33,3 @@ $printer->output(
     'mean:', $mean->getResult(),
     'cov:', $cov->getResult()
 );
-
-
-

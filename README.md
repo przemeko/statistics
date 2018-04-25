@@ -1,7 +1,7 @@
 # statistics
 
 ## Description
-Library for multivariate statistics for PHP >= 5.5. Allow large csv files.
+Library for multivariate statistics for PHP >= 7.1. Allow large csv files.
 
 ## Usage
 Array as data provider.
@@ -16,8 +16,7 @@ $dataProvider = new SimpleArray([
 ]);
 
 $min = new Min();
-$min->setDataProvider($dataProvider);
-$min->calculate();
+$min->calculate($dataProvider);
 ```
 
 Use csv as data provider, and print formated matrix to cli.
@@ -32,9 +31,8 @@ $dataProvider->setDelimiter(",")
             ->setEnclosure('"');
 
 $cov = new Covariance();
-$cov->setDataProvider($dataProvider);
-$cov->calculate();
+$cov->calculate($dataProvider);
 
 $printer = new Cli();
-$printer->output( $cov->getResult());
+$printer->output($cov->getResult());
 ```

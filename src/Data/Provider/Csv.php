@@ -1,44 +1,34 @@
 <?php
+
 namespace przemeko\Statistics\Data\Provider;
 
 use przemeko\Statistics\Data\DataProviderInterface;
 use przemeko\Statistics\Data\Exception\IOException;
 
 /**
- * Csv 
- * 
  * @uses DataProviderInterface
  */
 class Csv implements DataProviderInterface
 {
     /**
-     * fileHandler 
-     * 
      * @var mixed
      */
     private $fileHandler;
 
     /**
-     * delimiter 
-     * 
      * @var string
      */
     private $delimiter = ',';
 
     /**
-     * enclosure 
-     * 
      * @var string
      */
     private $enclosure = '"';
 
     /**
-     * __construct 
-     * 
-     * @param string $filename 
-     * @throws \przemeko\Statistics\DataProvider\Exception\IOException
+     * @throws IOException
      */
-    public function __construct($filename)
+    public function __construct(string $filename)
     {
         if (!is_file($filename)) {
             throw new IOException(sprintf("File %s doesn't exits", $filename));
@@ -51,12 +41,7 @@ class Csv implements DataProviderInterface
         }
     }
 
-    /**
-     * get 
-     * 
-     * @return array
-     */
-    public function get()
+    public function get(): \Generator
     {
         while (!feof($this->fileHandler)) {
             $row = fgetcsv($this->fileHandler, 0, $this->delimiter, $this->enclosure);
@@ -68,27 +53,17 @@ class Csv implements DataProviderInterface
         rewind($this->fileHandler);
     }
 
-    /**
-     * setDelimiter 
-     * 
-     * @param mixed $delimiter 
-     * @return void
-     */
-    public function setDelimiter($delimiter)
+    public function setDelimiter(string $delimiter): Csv
     {
         $this->delimiter = $delimiter;
+
         return $this;
     }
 
-    /**
-     * setEnclosure 
-     * 
-     * @param string $enclosure 
-     * @return void
-     */
-    public function setEnclosure($enclosure)
+    public function setEnclosure(string $enclosure): Csv
     {
         $this->enclosure = $enclosure;
+
         return $this;
     }
 

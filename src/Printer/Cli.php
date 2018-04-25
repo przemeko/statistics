@@ -1,7 +1,7 @@
 <?php
+
 namespace przemeko\Statistics\Printer;
 
-use przemeko\Statistics\Printer\PrinterInterface;
 use ArrayObject;
 
 class Cli implements PrinterInterface
@@ -12,12 +12,12 @@ class Cli implements PrinterInterface
     {
         $args = func_get_args();
         foreach ($args as $output) {
-            if (is_array($output) || $output instanceof ArrayObject ) {
+            if (is_array($output) || $output instanceof ArrayObject) {
                 $this->outputArray($output);
-            }
-            else {
+            } else {
                 echo $output;
             }
+
             echo $this->breakLine;
         }
     }
@@ -25,7 +25,7 @@ class Cli implements PrinterInterface
     private function outputArray($array)
     {
         $maxDigitsNum = 1;
-        array_walk_recursive($array,function($item, $key) use (&$maxDigitsNum) {
+        array_walk_recursive($array, function ($item, $key) use (&$maxDigitsNum) {
             $len = strlen($item);
             $maxDigitsNum = $len > $maxDigitsNum ? $len : $maxDigitsNum;
         });
@@ -34,15 +34,15 @@ class Cli implements PrinterInterface
         foreach ($array as $row) {
             if (is_array($row)) {
                 foreach ($row as $col) {
-                    echo sprintf("%s%s", $col, str_repeat(' ', $maxDigitsNum-strlen($col)));
+                    echo sprintf("%s%s", $col, str_repeat(' ', $maxDigitsNum - strlen($col)));
                 }
                 echo $this->breakLine;
-            }
-            else {
+            } else {
                 echo sprintf("%s ", $row);
             }
 
         }
+
         echo $this->breakLine;
     }
 }

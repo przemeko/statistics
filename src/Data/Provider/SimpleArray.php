@@ -6,20 +6,9 @@ use przemeko\Statistics\Data\Exception\EmptyDataException;
 
 class SimpleArray implements DataProviderInterface
 {
-    /**
-     * $array 
-     * 
-     * @var array
-     */
-    private $array;
+    private $array = [];
 
-    /**
-     * __construct 
-     * 
-     * @param array $array 
-     * @throws \przemeko\Statistics\Data\Exception\EmptyDataException
-     */
-    public function __construct(Array $array)
+    public function __construct(array $array)
     {
         if (empty($array)) {
             throw new EmptyDataException('Array is empty');
@@ -28,16 +17,11 @@ class SimpleArray implements DataProviderInterface
         $this->array = $array;
         if (!is_array($array[0])) {
             // we expect multivariate variables
-            $this->array = [$array]; 
+            $this->array = [$array];
         }
     }
 
-    /**
-     * get 
-     * 
-     * @return array
-     */
-    public function get()
+    public function get(): \Generator
     {
         foreach ($this->array as $row) {
             yield $row;
